@@ -4,7 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { createClient } from "@/lib/supabase/client"
 import { useEffect, useState } from "react"
-import { User, LogOut } from "lucide-react"
+import { User, LogOut, Wallet, History } from "lucide-react"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -14,11 +14,13 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useRouter } from "next/navigation"
 
 export function Navbar() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [isConfigured, setIsConfigured] = useState(false)
+  const router = useRouter()
 
   useEffect(() => {
     const checkConfig = () => {
@@ -63,6 +65,14 @@ export function Navbar() {
     window.location.href = "/"
   }
 
+  const handleCreateImage = () => {
+    if (user) {
+      router.push('/generator')
+    } else {
+      router.push('/login')
+    }
+  }
+
   return (
     <nav className="fixed top-0 w-full z-50 border-b bg-background/80 backdrop-blur-md">
       <div className="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -85,6 +95,13 @@ export function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-4">
+          <Button
+            onClick={handleCreateImage}
+            className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
+          >
+            Create Image
+          </Button>
+
           {!loading && isConfigured && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -105,22 +122,30 @@ export function Navbar() {
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <Link href="/wallet" className="flex items-center">
+                    <Wallet className="mr-2 h-4 w-4" />
+                    <span>Wallet</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem asChild className="cursor-pointer">
+                  <Link href="/usage" className="flex items-center">
+                    <History className="mr-2 h-4 w-4" />
+                    <span>Usage History</span>
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Log out</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : (
-            <>
-              <Button variant="ghost" className="hidden sm:inline-flex" asChild>
-                <Link href="/login">Log in</Link>
-              </Button>
-              <Button className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold" asChild>
-                <Link href="/signup">Get Started</Link>
-              </Button>
-            </>
-          )}
+          ) : !loading && !user ? (
+            <Button variant="ghost" className="hidden sm:inline-flex" asChild>
+              <Link href="/login">Log in</Link>
+            </Button>
+          ) : null}
         </div>
       </div>
     </nav>

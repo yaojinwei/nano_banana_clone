@@ -1,22 +1,19 @@
 import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
-import GeneratorClient from './generator-client'
+import UsageRecordsClient from './usage-client'
 
-export default async function GeneratorPage() {
+export default async function UsageRecordsPage() {
   const supabase = await createClient()
 
-  // Check if Supabase is configured
   if (!supabase) {
     redirect('/login')
   }
 
-  // Check if user is authenticated
   const { data: { user } } = await supabase.auth.getUser()
 
   if (!user) {
     redirect('/login')
   }
 
-  // User is authenticated, render the client component
-  return <GeneratorClient user={user} />
+  return <UsageRecordsClient user={user} />
 }
