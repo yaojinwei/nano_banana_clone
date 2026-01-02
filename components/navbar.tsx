@@ -18,25 +18,47 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 export function Navbar() {
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
-  const supabase = createClient()
+  const [isConfigured, setIsConfigured] = useState(false)
 
   useEffect(() => {
-    const getUser = async () => {
-      const { data: { user } } = await supabase.auth.getUser()
-      setUser(user)
-      setLoading(false)
+    const checkConfig = () => {
+      const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+      const configured = supabaseUrl && supabaseUrl !== 'your-supabase-project-url'
+      setIsConfigured(!!configured)
+
+      if (!configured) {
+        setLoading(false)
+        return
+      }
+
+      const supabase = createClient()
+      if (!supabase) {
+        setLoading(false)
+        return
+      }
+
+      const getUser = async () => {
+        const { data: { user } } = await supabase.auth.getUser()
+        setUser(user)
+        setLoading(false)
+      }
+
+      getUser()
+
+      const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+        setUser(session?.user ?? null)
+      })
+
+      return () => subscription.unsubscribe()
     }
 
-    getUser()
-
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
-      setUser(session?.user ?? null)
-    })
-
-    return () => subscription.unsubscribe()
-  }, [supabase])
+    checkConfig()
+  }, [])
 
   const handleLogout = async () => {
+    const supabase = createClient()
+    if (!supabase) return
+
     await supabase.auth.signOut()
     window.location.href = "/"
   }
@@ -63,7 +85,7 @@ export function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-4">
-          {!loading && user ? (
+          {!loading && isConfigured && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">

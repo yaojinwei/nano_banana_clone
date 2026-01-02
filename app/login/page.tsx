@@ -3,15 +3,29 @@
 import { createClient } from "@/lib/supabase/client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Chrome } from "lucide-react"
+import { Chrome, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
+import { useEffect, useState } from "react"
 
 export default function LoginPage() {
   const router = useRouter()
-  const supabase = createClient()
+  const [isConfigured, setIsConfigured] = useState(false)
+  const [isChecking, setIsChecking] = useState(true)
+
+  useEffect(() => {
+    const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+    const isConfigured = supabaseUrl && supabaseUrl !== 'your-supabase-project-url'
+    setIsConfigured(!!isConfigured)
+    setIsChecking(false)
+  }, [])
 
   const handleGoogleLogin = async () => {
+    const supabase = createClient()
+    if (!supabase) {
+      return
+    }
+
     const { error } = await supabase.auth.signInWithOAuth({
       provider: 'google',
       options: {
@@ -22,6 +36,44 @@ export default function LoginPage() {
     if (error) {
       console.error('Error logging in with Google:', error.message)
     }
+  }
+
+  if (isChecking) {
+    return null // or a loading spinner
+  }
+
+  if (!isConfigured) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-background to-muted p-4">
+        <Card className="w-full max-w-md">
+          <CardHeader className="space-y-1 text-center">
+            <div className="flex justify-center mb-4">
+              <AlertCircle className="h-16 w-16 text-yellow-500" />
+            </div>
+            <CardTitle className="text-2xl font-bold">Authentication Not Configured</CardTitle>
+            <CardDescription className="text-base">
+              Supabase authentication is not set up yet
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="bg-muted p-4 rounded-md text-sm text-muted-foreground">
+              <p className="font-medium mb-2">To enable authentication:</p>
+              <ol className="list-decimal list-inside space-y-2">
+                <li>Create a Supabase project at <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">supabase.com</a></li>
+                <li>Configure Google OAuth in Supabase Dashboard</li>
+                <li>Update <code className="bg-background px-2 py-1 rounded">.env.local</code> with your credentials</li>
+              </ol>
+              <p className="mt-3 text-xs">
+                See <code className="bg-background px-2 py-1 rounded">SUPABASE_SETUP.md</code> for detailed instructions
+              </p>
+            </div>
+            <Button className="w-full" asChild>
+              <Link href="/">Back to Home</Link>
+            </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (
