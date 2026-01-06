@@ -7,16 +7,18 @@ import { Chrome, AlertCircle } from "lucide-react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useEffect, useState } from "react"
+import { useTranslations } from "next-intl"
 
 export default function LoginPage() {
+  const t = useTranslations()
   const router = useRouter()
   const [isConfigured, setIsConfigured] = useState(false)
   const [isChecking, setIsChecking] = useState(true)
 
   useEffect(() => {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
-    const isConfigured = supabaseUrl && supabaseUrl !== 'your-supabase-project-url'
-    setIsConfigured(!!isConfigured)
+    const configured = supabaseUrl && supabaseUrl !== 'your-supabase-project-url'
+    setIsConfigured(!!configured)
     setIsChecking(false)
   }, [])
 
@@ -50,25 +52,25 @@ export default function LoginPage() {
             <div className="flex justify-center mb-4">
               <AlertCircle className="h-16 w-16 text-yellow-500" />
             </div>
-            <CardTitle className="text-2xl font-bold">Authentication Not Configured</CardTitle>
+            <CardTitle className="text-2xl font-bold">{t('login.notConfigured.title')}</CardTitle>
             <CardDescription className="text-base">
-              Supabase authentication is not set up yet
+              {t('login.notConfigured.description')}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="bg-muted p-4 rounded-md text-sm text-muted-foreground">
-              <p className="font-medium mb-2">To enable authentication:</p>
+              <p className="font-medium mb-2">{t('login.notConfigured.instructions')}</p>
               <ol className="list-decimal list-inside space-y-2">
-                <li>Create a Supabase project at <a href="https://supabase.com" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">supabase.com</a></li>
-                <li>Configure Google OAuth in Supabase Dashboard</li>
-                <li>Update <code className="bg-background px-2 py-1 rounded">.env.local</code> with your credentials</li>
+                <li>{t('login.notConfigured.step1')}</li>
+                <li>{t('login.notConfigured.step2')}</li>
+                <li>{t('login.notConfigured.step3')}</li>
               </ol>
               <p className="mt-3 text-xs">
-                See <code className="bg-background px-2 py-1 rounded">SUPABASE_SETUP.md</code> for detailed instructions
+                {t('login.notConfigured.seeDocs')}
               </p>
             </div>
             <Button className="w-full" asChild>
-              <Link href="/">Back to Home</Link>
+              <Link href="/">{t('common.backToHome')}</Link>
             </Button>
           </CardContent>
         </Card>
@@ -83,9 +85,9 @@ export default function LoginPage() {
           <div className="flex justify-center mb-4">
             <span className="text-5xl">🍌</span>
           </div>
-          <CardTitle className="text-3xl font-bold">Welcome back</CardTitle>
+          <CardTitle className="text-3xl font-bold">{t('login.title')}</CardTitle>
           <CardDescription className="text-base">
-            Sign in to BananaEdit to continue your creative journey
+            {t('login.subtitle')}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -96,7 +98,7 @@ export default function LoginPage() {
             variant="outline"
           >
             <Chrome className="mr-2 h-5 w-5" />
-            Continue with Google
+            {t('login.googleButton')}
           </Button>
 
           <div className="relative">
@@ -105,15 +107,15 @@ export default function LoginPage() {
             </div>
             <div className="relative flex justify-center text-xs uppercase">
               <span className="bg-background px-2 text-muted-foreground">
-                Or
+                {t('common.or')}
               </span>
             </div>
           </div>
 
           <div className="text-center text-sm text-muted-foreground">
-            Don't have an account?{" "}
+            {t('login.noAccount')}{" "}
             <Link href="/signup" className="text-primary hover:underline font-medium">
-              Sign up
+              {t('login.signUpLink')}
             </Link>
           </div>
         </CardContent>

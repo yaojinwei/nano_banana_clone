@@ -1,33 +1,37 @@
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+"use client"
 
-const TESTIMONIALS = [
-  {
-    name: "Alex Rivera",
-    role: "Content Creator",
-    text: "BananaEdit is literally the fastest editor I've ever used. The background removal is like magic. Pure banana bliss!",
-    avatar: "/smiling-man-portrait.png",
-  },
-  {
-    name: "Sarah Chen",
-    role: "Shopify Store Owner",
-    text: "I used to spend hours in Photoshop. Now I just drop my product shots into BananaEdit and they're ready for my store in seconds.",
-    avatar: "/professional-woman-portrait.png",
-  },
-  {
-    name: "Marcus Thorne",
-    role: "Photography Enthusiast",
-    text: "The interface is so clean. No clutter, just the tools you need. It's the only editor that doesn't make me want to pull my hair out.",
-    avatar: "/cool-guy-with-glasses.jpg",
-  },
-]
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useTranslations } from "next-intl"
 
 export function Testimonials() {
+  const t = useTranslations()
+
+  const TESTIMONIALS = [
+    {
+      name: t('testimonials.review1.author'),
+      role: t('testimonials.review1.role'),
+      text: t('testimonials.review1.content'),
+      avatar: "/smiling-man-portrait.png",
+    },
+    {
+      name: t('testimonials.review2.author'),
+      role: t('testimonials.review2.role'),
+      text: t('testimonials.review2.content'),
+      avatar: "/professional-woman-portrait.png",
+    },
+    {
+      name: t('testimonials.review3.author'),
+      role: t('testimonials.review3.role'),
+      text: t('testimonials.review3.content'),
+      avatar: "/cool-guy-with-glasses.jpg",
+    },
+  ]
   return (
     <section id="testimonials" className="py-24">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold mb-4">Loved by Creators</h2>
-          <p className="text-muted-foreground">Join thousands of people who've made the switch to the yellow side.</p>
+          <h2 className="text-3xl md:text-5xl font-bold mb-4">{t('testimonials.title')}</h2>
+          <p className="text-muted-foreground">{t('testimonials.subtitle')}</p>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {TESTIMONIALS.map((t, i) => (

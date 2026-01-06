@@ -1,0 +1,166 @@
+{
+  "common": {
+    "getStarted": "Get Started",
+    "learnMore": "Learn More",
+    "loading": "Loading...",
+    "retry": "Retry",
+    "or": "Or",
+    "backToHome": "Back to Home",
+    "logOut": "Log out"
+  },
+  "nav": {
+    "home": "Home",
+    "features": "Features",
+    "pricing": "Pricing",
+    "about": "About",
+    "login": "Login",
+    "signup": "Sign Up",
+    "generator": "Generator",
+    "usage": "Usage History",
+    "wallet": "Wallet",
+    "createImage": "Create Image"
+  },
+  "hero": {
+    "badge": "New: AI Banana-Powered Filters",
+    "title": "The freshest way to edit your images.",
+    "subtitle": "Stop peeling through complex tools. BananaEdit is the fast, simple, and powerful online image editor for everyone.",
+    "uploadTitle": "Upload your image",
+    "uploadDescription": "Drag and drop or click to browse files",
+    "chooseImage": "Choose Image",
+    "trySample": "Try Sample"
+  },
+  "showcase": {
+    "title": "Case Studies",
+    "subtitle": "See how creators are using BananaEdit to level up their content.",
+    "case1": {
+      "title": "Vibrant Landscapes",
+      "description": "Enhanced colors and natural lighting for travel bloggers."
+    },
+    "case2": {
+      "title": "Clean Product Shots",
+      "description": "Background removal and soft shadows for e-commerce."
+    },
+    "case3": {
+      "title": "Portrait Magic",
+      "description": "Skin smoothing and eye enhancement with one click."
+    },
+    "viewCaseStudy": "View Case Study →"
+  },
+  "testimonials": {
+    "title": "Loved by Creators",
+    "subtitle": "Join thousands of people who've made the switch to the yellow side.",
+    "review1": {
+      "author": "Alex Rivera",
+      "role": "Content Creator",
+      "content": "\"BananaEdit is literally the fastest editor I've ever used. The background removal is like magic. Pure banana bliss!\""
+    },
+    "review2": {
+      "author": "Sarah Chen",
+      "role": "Shopify Store Owner",
+      "content": "\"I used to spend hours in Photoshop. Now I just drop my product shots into BananaEdit and they're ready for my store in seconds.\""
+    },
+    "review3": {
+      "author": "Marcus Thorne",
+      "role": "Photography Enthusiast",
+      "content": "\"The interface is so clean. No clutter, just the tools you need. It's the only editor that doesn't make me want to pull my hair out.\""
+    }
+  },
+  "faq": {
+    "title": "Got Questions?",
+    "subtitle": "Everything you need to know about the world's freshest editor.",
+    "q1": "Is BananaEdit really free to use?",
+    "a1": "Yes! BananaEdit offers a generous free tier that includes all essential editing tools. We also have a 'Premium Bunch' plan for heavy users who need batch processing.",
+    "q2": "What file formats do you support?",
+    "a2": "We support all major web formats including PNG, JPG, WebP, SVG, and even raw banana-vision files (just kidding, but we're working on it).",
+    "q3": "How does the AI background removal work?",
+    "a3": "Our proprietary AI algorithm identifies subjects with surgical precision, peeling away backgrounds cleaner than a ripe Cavendish banana.",
+    "q4": "Is my data secure?",
+    "a4": "Absolutely. We don't store your images unless you choose to save them to our cloud. Everything else is processed securely and deleted immediately after your session."
+  },
+  "cta": {
+    "title": "Ready to start editing?",
+    "subtitle": "Join 50,000+ creators who edit with a smile.",
+    "button": "Get Started for Free 🍌"
+  },
+  "footer": {
+    "privacy": "Privacy Policy",
+    "terms": "Terms of Service",
+    "contact": "Contact Us",
+    "copyright": "© 2026 BananaEdit. Stay Fresh."
+  },
+  "login": {
+    "title": "Welcome back",
+    "subtitle": "Sign in to BananaEdit to continue your creative journey",
+    "googleButton": "Continue with Google",
+    "noAccount": "Don't have an account?",
+    "signUpLink": "Sign up",
+    "notConfigured": {
+      "title": "Authentication Not Configured",
+      "description": "Supabase authentication is not set up yet",
+      "instructions": "To enable authentication:",
+      "step1": "Create a Supabase project at supabase.com",
+      "step2": "Configure Google OAuth in Supabase Dashboard",
+      "step3": "Update .env.local with your credentials",
+      "seeDocs": "See SUPABASE_SETUP.md for detailed instructions"
+    }
+  },
+  "generator": {
+    "title": "AI Image Editor",
+    "subtitle": "Transform existing images into new creations",
+    "promptLabel": "Prompt Input",
+    "promptPlaceholder": "Describe how you want to transform your image...",
+    "modelLabel": "AI Model Selection",
+    "modelDescription": "Different models offer unique characteristics and styles",
+    "imageLabel": "Reference Image",
+    "addImage": "Add Image",
+    "maxSize": "Max 10MB",
+    "generateButton": "Generate Now",
+    "generatingButton": "Generating...",
+    "credits": "Credits",
+    "textToImage": "Text to Image",
+    "imageEdit": "Image Edit",
+    "describeImage": "Describe Your Image",
+    "textToImagePlaceholder": "A serene sunset over a calm lake, with mountains in the background and vibrant orange and purple sky...",
+    "beDescriptive": "Be descriptive for better results. Include style, mood, colors, and details.",
+    "imageSize": "Image Size",
+    "aspectRatios": {
+      "1:1": "1:1 (Square)",
+      "16:9": "16:9 (Landscape)",
+      "9:16": "9:16 (Portrait)",
+      "4:3": "4:3 (Standard)"
+    },
+    "sizeDescription": "Choose the aspect ratio for your generated image",
+    "outputGallery": "Output Gallery",
+    "readyForGeneration": "Ready for instant generation",
+    "enterPrompt": "Enter your prompt and unleash the power",
+    "generationTips": "Generation Tips",
+    "tip1": "Use detailed descriptions for more accurate results",
+    "tip2": "Try different AI models for varied artistic styles",
+    "tip3": "Higher quality reference images yield better outputs",
+    "providePromptAndImage": "Please provide both a prompt and an image",
+    "providePrompt": "Please provide a prompt"
+  },
+  "usage": {
+    "title": "Usage History",
+    "subtitle": "View your historical usage records",
+    "noRecords": "No usage records yet",
+    "image": "Image",
+    "prompt": "Prompt",
+    "time": "Time",
+    "type": "Type",
+    "model": "Model",
+    "credits": "Credits",
+    "textToImage": "Text to Image",
+    "imageToImage": "Image to Image",
+    "itemsPerPage": "Items per page:",
+    "pageOf": "Page {page} of {totalPages}, {total} total",
+    "previous": "Previous",
+    "next": "Next",
+    "download": "Download"
+  },
+  "models": {
+    "nanoBanana": "Nano Banana",
+    "nanoBananaPro": "Nano Banana Pro",
+    "seedream4": "SeeDream 4"
+  }
+}

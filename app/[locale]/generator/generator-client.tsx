@@ -60,7 +60,7 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
         body: JSON.stringify({
           prompt,
           imageBase64: "data:image/jpeg;base64," + base64Data,
-          model: "gemini-2.5-flash-image-preview",
+          model: selectedModel, // Use the selected model from UI
           size: "1:1",
         }),
       })
@@ -120,7 +120,7 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
         },
         body: JSON.stringify({
           prompt: textToImagePrompt,
-          model: "gemini-2.5-flash-image-preview",
+          model: textToImageModel, // Use the selected model from UI
           size: imageSize,
         }),
       })

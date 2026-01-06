@@ -4,8 +4,9 @@ import { useState, useEffect } from "react"
 import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { ChevronLeft, ChevronRight, Loader2 } from "lucide-react"
+import { ChevronLeft, ChevronRight, Loader2, Download, Image as ImageIcon } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 interface UsageRecord {
   id: string
@@ -30,6 +31,9 @@ interface UsageRecordsClientProps {
 
 export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
   const router = useRouter()
+  const t = useTranslations('usage')
+  const tModel = useTranslations('models')
+
   const [records, setRecords] = useState<UsageRecord[]>([])
   const [pagination, setPagination] = useState<PaginationData>({
     page: 1,
@@ -79,9 +83,9 @@ export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
   const getTypeLabel = (type: string) => {
     switch (type) {
       case 'text_to_image':
-        return 'Text to Image'
+        return t('textToImage')
       case 'image_to_image':
-        return 'Image to Image'
+        return t('imageToImage')
       default:
         return type
     }
@@ -90,11 +94,11 @@ export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
   const getModelLabel = (model: string) => {
     switch (model) {
       case 'nano_banana':
-        return 'Nano Banana'
+        return tModel('nanoBanana')
       case 'nano_banana_pro':
-        return 'Nano Banana Pro'
+        return tModel('nanoBananaPro')
       case 'seedream_4':
-        return 'SeeDream 4'
+        return tModel('seedream4')
       default:
         return model
     }
@@ -111,12 +115,31 @@ export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
     })
   }
 
+  const handleDownloadImage = async (imageUrl: string, recordId: string) => {
+    try {
+      const response = await fetch(imageUrl)
+      const blob = await response.blob()
+      const blobUrl = window.URL.createObjectURL(blob)
+      const link = document.createElement("a")
+      link.href = blobUrl
+      link.download = `generated-image-${recordId}.png`
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(blobUrl)
+    } catch (error) {
+      console.error("Error downloading image:", error)
+      // Fallback: open in new tab
+      window.open(imageUrl, "_blank")
+    }
+  }
+
   return (
     <div className="min-h-screen bg-background pt-16">
       <div className="container mx-auto max-w-6xl px-4 py-12">
         <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-3">Usage History</h1>
-          <p className="text-lg text-muted-foreground">View your historical usage records</p>
+          <h1 className="text-4xl font-bold mb-3">{t('title')}</h1>
+          <p className="text-lg text-muted-foreground">{t('subtitle')}</p>
         </div>
 
         <Card className="p-6">
@@ -131,12 +154,12 @@ export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
                 onClick={() => fetchRecords(pagination.page, pagination.pageSize)}
                 variant="outline"
               >
-                Retry
+                {t('retry')}
               </Button>
             </div>
           ) : records.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">No usage records yet</p>
+              <p className="text-muted-foreground">{t('noRecords')}</p>
             </div>
           ) : (
             <>
@@ -144,15 +167,53 @@ export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
                 <table className="w-full">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left py-3 px-4 font-semibold">Time</th>
-                      <th className="text-left py-3 px-4 font-semibold">Type</th>
-                      <th className="text-left py-3 px-4 font-semibold">Model</th>
-                      <th className="text-right py-3 px-4 font-semibold">Credits</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('image')}</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('prompt')}</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('time')}</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('type')}</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('model')}</th>
+                      <th className="text-right py-3 px-4 font-semibold">{t('credits')}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {records.map((record) => (
                       <tr key={record.id} className="border-b hover:bg-muted/50 transition-colors">
+                        <td className="py-3 px-4 text-sm">
+                          {record.image_url ? (
+                            <div className="flex items-center gap-2">
+                              <a
+                                href={record.image_url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="block"
+                              >
+                                <img
+                                  src={record.image_url}
+                                  alt="Generated"
+                                  className="w-16 h-16 object-cover rounded border hover:border-primary transition-colors cursor-pointer"
+                                />
+                              </a>
+                              <Button
+                                size="sm"
+                                variant="ghost"
+                                onClick={() => handleDownloadImage(record.image_url!, record.id)}
+                                className="h-8 w-8 p-0"
+                                title="Download image"
+                              >
+                                <Download className="w-4 h-4" />
+                              </Button>
+                            </div>
+                          ) : (
+                            <div className="w-16 h-16 bg-muted rounded flex items-center justify-center">
+                              <ImageIcon className="w-6 h-6 text-muted-foreground" />
+                            </div>
+                          )}
+                        </td>
+                        <td className="py-3 px-4 text-sm max-w-md">
+                          <div className="truncate" title={record.prompt || undefined}>
+                            {record.prompt || '-'}
+                          </div>
+                        </td>
                         <td className="py-3 px-4 text-sm">{formatDate(record.created_at)}</td>
                         <td className="py-3 px-4 text-sm">{getTypeLabel(record.type)}</td>
                         <td className="py-3 px-4 text-sm">{getModelLabel(record.model)}</td>
@@ -166,7 +227,7 @@ export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
               {/* Pagination */}
               <div className="flex items-center justify-between mt-6 pt-6 border-t">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Items per page:</span>
+                  <span className="text-sm text-muted-foreground">{t('itemsPerPage')}</span>
                   <Select
                     value={pagination.pageSize.toString()}
                     onValueChange={handlePageSizeChange}
@@ -185,7 +246,11 @@ export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
 
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">
-                    Page {pagination.page} of {pagination.totalPages}, {pagination.total} total
+                    {t('pageOf', {
+                      page: pagination.page,
+                      totalPages: pagination.totalPages,
+                      total: pagination.total
+                    })}
                   </span>
                   <div className="flex gap-1 ml-4">
                     <Button
@@ -195,7 +260,7 @@ export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
                       disabled={pagination.page === 1}
                     >
                       <ChevronLeft className="w-4 h-4" />
-                      Previous
+                      {t('previous')}
                     </Button>
                     <Button
                       variant="outline"
@@ -203,7 +268,7 @@ export default function UsageRecordsClient({ user }: UsageRecordsClientProps) {
                       onClick={() => handlePageChange(pagination.page + 1)}
                       disabled={pagination.page === pagination.totalPages}
                     >
-                      Next
+                      {t('next')}
                       <ChevronRight className="w-4 h-4" />
                     </Button>
                   </div>

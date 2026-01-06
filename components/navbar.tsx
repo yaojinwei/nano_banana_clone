@@ -15,14 +15,19 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/navigation"
+import LanguageSwitcher from "@/components/language-switcher"
+import { useTranslations } from "next-intl"
 
 export function Navbar() {
+  const t = useTranslations()
   const [user, setUser] = useState<any>(null)
   const [loading, setLoading] = useState(true)
   const [isConfigured, setIsConfigured] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
+    setMounted(true)
     const checkConfig = () => {
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
       const configured = supabaseUrl && supabaseUrl !== 'your-supabase-project-url'
@@ -82,27 +87,28 @@ export function Navbar() {
         </Link>
         <div className="hidden md:flex items-center gap-8 text-sm font-medium">
           <Link href="#features" className="hover:text-primary transition-colors">
-            Features
+            {t('nav.features')}
           </Link>
           <Link href="#showcase" className="hover:text-primary transition-colors">
-            Showcase
+            {t('nav.pricing')}
           </Link>
           <Link href="#testimonials" className="hover:text-primary transition-colors">
-            Reviews
+            {t('nav.about')}
           </Link>
           <Link href="#faq" className="hover:text-primary transition-colors">
             FAQ
           </Link>
         </div>
         <div className="flex items-center gap-4">
+          {mounted && <LanguageSwitcher />}
           <Button
             onClick={handleCreateImage}
             className="bg-primary hover:bg-primary/90 text-primary-foreground font-semibold"
           >
-            Create Image
+            {t('nav.createImage')}
           </Button>
 
-          {!loading && isConfigured && user ? (
+          {mounted && !loading && isConfigured && user ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
@@ -125,25 +131,25 @@ export function Navbar() {
                 <DropdownMenuItem asChild className="cursor-pointer">
                   <Link href="/wallet" className="flex items-center">
                     <Wallet className="mr-2 h-4 w-4" />
-                    <span>Wallet</span>
+                    <span>{t('nav.wallet')}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem asChild className="cursor-pointer">
                   <Link href="/usage" className="flex items-center">
                     <History className="mr-2 h-4 w-4" />
-                    <span>Usage History</span>
+                    <span>{t('nav.usage')}</span>
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={handleLogout} className="cursor-pointer">
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
+                  <span>{t('common.logOut')}</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          ) : !loading && !user ? (
+          ) : mounted && !loading && !user ? (
             <Button variant="ghost" className="hidden sm:inline-flex" asChild>
-              <Link href="/login">Log in</Link>
+              <Link href="/login">{t('nav.login')}</Link>
             </Button>
           ) : null}
         </div>

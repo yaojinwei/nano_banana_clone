@@ -1,0 +1,166 @@
+{
+  "common": {
+    "getStarted": "开始使用",
+    "learnMore": "了解更多",
+    "loading": "加载中...",
+    "retry": "重试",
+    "or": "或",
+    "backToHome": "返回首页",
+    "logOut": "登出"
+  },
+  "nav": {
+    "home": "首页",
+    "features": "功能",
+    "pricing": "定价",
+    "about": "关于",
+    "login": "登录",
+    "signup": "注册",
+    "generator": "生成器",
+    "usage": "使用记录",
+    "wallet": "钱包",
+    "createImage": "创建图像"
+  },
+  "hero": {
+    "badge": "新功能：AI 香蕉驱动滤镜",
+    "title": "编辑图像的最新鲜方式。",
+    "subtitle": "不再纠结于复杂的工具。BananaEdit 是一款快速、简单且强大的在线图像编辑器，适合每个人使用。",
+    "uploadTitle": "上传您的图像",
+    "uploadDescription": "拖拽或点击浏览文件",
+    "chooseImage": "选择图像",
+    "trySample": "试一试示例"
+  },
+  "showcase": {
+    "title": "案例研究",
+    "subtitle": "看看创作者们如何使用 BananaEdit 提升内容质量。",
+    "case1": {
+      "title": "鲜艳的风景照",
+      "description": "为旅行博主增强色彩和自然光线。"
+    },
+    "case2": {
+      "title": "干净的产品照",
+      "description": "为电子商务去除背景并添加柔和阴影。"
+    },
+    "case3": {
+      "title": "人像魔法",
+      "description": "一键实现磨皮和眼睛增强。"
+    },
+    "viewCaseStudy": "查看案例研究 →"
+  },
+  "testimonials": {
+    "title": "深受创作者喜爱",
+    "subtitle": "加入成千上万选择香蕉阵营的用户。",
+    "review1": {
+      "author": "亚历克斯·里维拉",
+      "role": "内容创作者",
+      "content": "\"BananaEdit 真的我用过最快的编辑器。背景去除功能简直像魔法一样。纯粹的香蕉天堂！\""
+    },
+    "review2": {
+      "author": "莎拉·陈",
+      "role": "Shopify 店主",
+      "content": "\"以前我要在 Photoshop 上花好几个小时。现在只需把产品照丢进 BananaEdit，几秒钟就能准备好上架。\""
+    },
+    "review3": {
+      "author": "马库斯·索恩",
+      "role": "摄影爱好者",
+      "content": "\"界面太干净了。没有杂乱的东西，只有你需要的工具。这是唯一一个不会让我抓狂的编辑器。\""
+    }
+  },
+  "faq": {
+    "title": "有问题？",
+    "subtitle": "了解世界上最鲜美的编辑器的一切信息。",
+    "q1": "BananaEdit 真的免费使用吗？",
+    "a1": "是的！BananaEdit 提供慷慨的免费套餐，包含所有基本编辑工具。我们还有'高级套餐'计划，适合需要批量处理的重度用户。",
+    "q2": "支持哪些文件格式？",
+    "a2": "我们支持所有主要网络格式，包括 PNG、JPG、WebP、SVG，甚至是原始香蕉视觉文件（开玩笑的，但我们正在开发中）。",
+    "q3": "AI 背景去除是如何工作的？",
+    "a3": "我们专有的 AI 算法以手术般的精度识别主题，去除背景比成熟的卡文迪什香蕉还要干净。",
+    "q4": "我的数据安全吗？",
+    "a4": "绝对安全。除非您选择将图像保存到我们的云端，否则我们不会存储您的图像。其他所有内容都经过安全处理，并在会话结束后立即删除。"
+  },
+  "cta": {
+    "title": "准备开始编辑了吗？",
+    "subtitle": "加入 50,000+ 位微笑着编辑的创作者。",
+    "button": "免费开始 🍌"
+  },
+  "footer": {
+    "privacy": "隐私政策",
+    "terms": "服务条款",
+    "contact": "联系我们",
+    "copyright": "© 2026 BananaEdit。保持新鲜。"
+  },
+  "login": {
+    "title": "欢迎回来",
+    "subtitle": "登录 BananaEdit，继续您的创作之旅",
+    "googleButton": "使用 Google 继续",
+    "noAccount": "还没有账户？",
+    "signUpLink": "注册",
+    "notConfigured": {
+      "title": "未配置身份验证",
+      "description": "尚未设置 Supabase 身份验证",
+      "instructions": "要启用身份验证：",
+      "step1": "在 supabase.com 创建一个 Supabase 项目",
+      "step2": "在 Supabase 控制台配置 Google OAuth",
+      "step3": "使用您的凭据更新 .env.local 文件",
+      "seeDocs": "请参阅 SUPABASE_SETUP.md 了解详细说明"
+    }
+  },
+  "generator": {
+    "title": "AI 图像编辑器",
+    "subtitle": "将现有图像转换为新的创作",
+    "promptLabel": "提示词输入",
+    "promptPlaceholder": "描述您想要如何转换您的图像...",
+    "modelLabel": "AI 模型选择",
+    "modelDescription": "不同的模型提供独特的特征和风格",
+    "imageLabel": "参考图像",
+    "addImage": "添加图像",
+    "maxSize": "最大 10MB",
+    "generateButton": "立即生成",
+    "generatingButton": "生成中...",
+    "credits": "积分",
+    "textToImage": "文本生成图像",
+    "imageEdit": "图像编辑",
+    "describeImage": "描述您的图像",
+    "textToImagePlaceholder": "平静湖面上宁静的日落，背景是山脉，天空呈现出鲜艳的橙色和紫色...",
+    "beDescriptive": "详细描述以获得更好的结果。包括风格、情绪、颜色和细节。",
+    "imageSize": "图像尺寸",
+    "aspectRatios": {
+      "1:1": "1:1 (正方形)",
+      "16:9": "16:9 (横向)",
+      "9:16": "9:16 (纵向)",
+      "4:3": "4:3 (标准)"
+    },
+    "sizeDescription": "选择生成图像的宽高比",
+    "outputGallery": "输出画廊",
+    "readyForGeneration": "准备即时生成",
+    "enterPrompt": "输入您的提示词并释放力量",
+    "generationTips": "生成技巧",
+    "tip1": "使用详细描述以获得更准确的结果",
+    "tip2": "尝试不同的 AI 模型以获得多样的艺术风格",
+    "tip3": "更高质量的参考图像会产生更好的输出",
+    "providePromptAndImage": "请同时提供提示词和图像",
+    "providePrompt": "请提供提示词"
+  },
+  "usage": {
+    "title": "使用记录",
+    "subtitle": "查看您的历史使用记录",
+    "noRecords": "暂无使用记录",
+    "image": "图像",
+    "prompt": "提示词",
+    "time": "时间",
+    "type": "类型",
+    "model": "模型",
+    "credits": "积分",
+    "textToImage": "文本生成图像",
+    "imageToImage": "图像编辑",
+    "itemsPerPage": "每页显示：",
+    "pageOf": "第 {page} 页，共 {totalPages} 页，总计 {total} 条",
+    "previous": "上一页",
+    "next": "下一页",
+    "download": "下载"
+  },
+  "models": {
+    "nanoBanana": "Nano Banana",
+    "nanoBananaPro": "Nano Banana Pro",
+    "seedream4": "SeeDream 4"
+  }
+}

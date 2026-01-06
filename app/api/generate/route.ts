@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server"
+import { createClient } from '@/lib/supabase/server'
 
 // Helper function to poll task status
 async function pollTaskStatus(taskId: string, apiKey: string, maxAttempts = 30, interval = 2000): Promise<any> {
@@ -62,13 +63,65 @@ async function pollTaskStatus(taskId: string, apiKey: string, maxAttempts = 30, 
 
 export async function POST(request: NextRequest) {
   try {
+    // Initialize Supabase client
+    const supabase = await createClient()
+
+    if (!supabase) {
+      return NextResponse.json(
+        { error: "Database not configured" },
+        { status: 500 }
+      )
+    }
+
+    // Get authenticated user
+    const { data: { user }, error: userError } = await supabase.auth.getUser()
+
+    if (!user || userError) {
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      )
+    }
+
     const body = await request.json()
-    const { prompt, imageBase64, model = "gemini-2.5-flash-image-preview", size = "1:1" } = body
+    const { prompt, imageBase64, model = "nano-banana", size = "1:1" } = body
 
     if (!prompt) {
       return NextResponse.json(
         { error: "Prompt is required" },
         { status: 400 }
+      )
+    }
+
+    // Convert model name from kebab-case to snake_case for database
+    const dbModel = model.replace(/-/g, '_')
+
+    // Map frontend models to API models
+    const apiModel = "gemini-2.5-flash-image-preview" // All models use the same API
+
+    // Determine credits needed and type
+    const creditsNeeded = imageBase64 ? 2 : 3
+    const type = imageBase64 ? "image_to_image" : "text_to_image"
+
+    // Check user's credits balance
+    const { data: profile, error: profileError } = await supabase
+      .from('profiles')
+      .select('credits_balance')
+      .eq('id', user.id)
+      .single()
+
+    if (profileError || !profile) {
+      console.error("Error fetching profile:", profileError)
+      return NextResponse.json(
+        { error: "Failed to verify credits balance" },
+        { status: 500 }
+      )
+    }
+
+    if (profile.credits_balance < creditsNeeded) {
+      return NextResponse.json(
+        { error: `Insufficient credits. You need ${creditsNeeded} credits but have ${profile.credits_balance}.` },
+        { status: 402 }
       )
     }
 
@@ -92,7 +145,7 @@ export async function POST(request: NextRequest) {
       n: number
       image_urls?: string[]
     } = {
-      model,
+      model: apiModel,
       prompt,
       size,
       n: 1,
@@ -103,7 +156,7 @@ export async function POST(request: NextRequest) {
       payload.image_urls = [imageBase64]
     }
 
-    console.log("Calling generation API with:", { apiUrl, model, size, hasImage: !!imageBase64 })
+    console.log("Calling generation API with:", { apiUrl, model: apiModel, size, hasImage: !!imageBase64 })
     console.log("Request payload:", JSON.stringify(payload, null, 2))
 
     // Call the Nano Banana API to generate image
@@ -245,11 +298,42 @@ export async function POST(request: NextRequest) {
       throw new Error("No images found in task result")
     }
 
+    // Save usage record and deduct credits
+    const { error: insertError } = await supabase
+      .from('usage_records')
+      .insert({
+        user_id: user.id,
+        type: type,
+        model: dbModel,
+        prompt: prompt,
+        image_url: images[0], // Save the first generated image URL
+        credits_used: creditsNeeded,
+      })
+
+    if (insertError) {
+      console.error("Error saving usage record:", insertError)
+      // Don't fail the request if usage record insert fails
+      // But log it for monitoring
+    }
+
+    // Deduct credits from user's balance
+    const { error: updateError } = await supabase
+      .from('profiles')
+      .update({ credits_balance: profile.credits_balance - creditsNeeded })
+      .eq('id', user.id)
+
+    if (updateError) {
+      console.error("Error deducting credits:", updateError)
+      // Don't fail the request if credit deduction fails
+      // But log it for monitoring
+    }
+
     // Return in the format expected by the frontend
     return NextResponse.json({
       data: images.map(url => ({ url })),
       task_id: taskId,
       status: taskResult.status,
+      credits_remaining: profile.credits_balance - creditsNeeded,
     })
   } catch (error) {
     console.error("Error generating image:", error)

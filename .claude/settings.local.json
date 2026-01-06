@@ -27,7 +27,25 @@
       "Bash(git push:*)",
       "Bash(git remote set-url:*)",
       "Bash(pnpm add:*)",
-      "Bash(test:*)"
+      "Bash(test:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(tail:*)",
+      "mcp__firecrawl__firecrawl_search",
+      "mcp__firecrawl__firecrawl_scrape",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__query-docs",
+      "WebSearch",
+      "mcp__playwright__browser_wait_for",
+      "Bash(claude:*)",
+      "Bash(chmod:*)",
+      "Bash(/Users/mac/Mygit/poju/nanobanana/setup-supabase.sh)",
+      "mcp__playwright__browser_close",
+      "Bash(grep:*)",
+      "Bash(node:*)",
+      "mcp__playwright__browser_type",
+      "mcp__playwright__browser_press_key",
+      "mcp__playwright__browser_file_upload"
     ]
   }
 }
