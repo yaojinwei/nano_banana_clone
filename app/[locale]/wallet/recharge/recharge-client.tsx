@@ -5,6 +5,7 @@ import { Card } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Loader2, ArrowLeft, Check } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 interface RechargeClientProps {
   user: any
@@ -17,8 +18,10 @@ interface RechargePackage {
 }
 
 export default function RechargeClient({ user }: RechargeClientProps) {
+  const t = useTranslations()
   const router = useRouter()
   const [selectedPackage, setSelectedPackage] = useState<RechargePackage | null>(null)
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string>('credit_card')
   const [loading, setLoading] = useState(false)
 
   const rechargePackages: RechargePackage[] = [
@@ -32,50 +35,70 @@ export default function RechargeClient({ user }: RechargeClientProps) {
     setSelectedPackage(pkg)
   }
 
+  const handleSelectPaymentMethod = (method: string) => {
+    setSelectedPaymentMethod(method)
+  }
+
   const handleRecharge = async () => {
-    if (!selectedPackage) return
+    if (!selectedPackage || !user) return
 
     setLoading(true)
 
     try {
-      // 模拟充值请求
-      // 在实际应用中，这里应该调用支付 API
-      await new Promise(resolve => setTimeout(resolve, 2000))
-
-      // 创建充值记录
-      const response = await fetch('/api/recharge-records', {
+      // 调用 Creem 支付 API 创建 checkout session
+      const response = await fetch('/api/creem/create-checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          planId: `credits_${selectedPackage.credits}`,
+          billingCycle: 'onetime',
+          userEmail: user.email,
+          userId: user.id,
           amount: selectedPackage.price,
           credits: selectedPackage.credits + selectedPackage.bonus,
-          payment_method: 'Alipay',
-          payment_id: `PAY${Date.now()}`,
-          status: 'completed',
         }),
       })
 
       if (!response.ok) {
-        throw new Error('Failed to create recharge record')
+        const errorData = await response.json().catch(() => ({ error: 'Unknown error' }))
+        console.error('Checkout API error:', errorData)
+
+        // 提供更详细的错误信息
+        if (errorData.error === 'Creem API key not configured') {
+          alert('请先配置 Creem API 密钥。查看 CREEM_SETUP_GUIDE.md 了解详细步骤。')
+          return
+        }
+        if (errorData.error === 'Invalid credit package') {
+          alert('无效的积分套餐')
+          return
+        }
+        if (response.status === 500) {
+          alert('服务器错误，请检查 Creem API 配置。查看 CREEM_SETUP_GUIDE.md')
+          return
+        }
+
+        throw new Error(errorData.error || 'Failed to create checkout session')
       }
 
-      // 更新用户余额
-      await fetch('/api/wallet/balance', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          credits: selectedPackage.credits + selectedPackage.bonus,
-        }),
-      })
+      const data = await response.json()
 
-      router.push('/wallet')
+      // 跳转到 Creem 支付页面
+      if (data.checkout_url) {
+        window.location.href = data.checkout_url
+      } else {
+        throw new Error('No checkout URL returned')
+      }
     } catch (error) {
       console.error('Recharge error:', error)
-      alert('Recharge failed, please try again')
+
+      // 用户友好的错误提示
+      if (error instanceof Error) {
+        alert(`支付失败：${error.message}\n\n请确保已配置 Creem API（查看 CREEM_SETUP_GUIDE.md）`)
+      } else {
+        alert(t('recharge.checkoutError') || 'Failed to create checkout session. Please try again.')
+      }
     } finally {
       setLoading(false)
     }
@@ -91,14 +114,14 @@ export default function RechargeClient({ user }: RechargeClientProps) {
             className="mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Wallet
+            {t('recharge.backToWallet')}
           </Button>
-          <h1 className="text-4xl font-bold mb-3">Recharge</h1>
-          <p className="text-lg text-muted-foreground">Select a recharge package to add Credits to your account</p>
+          <h1 className="text-4xl font-bold mb-3">{t('recharge.recharge')}</h1>
+          <p className="text-lg text-muted-foreground">{t('recharge.selectPackage')}</p>
         </div>
 
         <Card className="p-8">
-          <h2 className="text-2xl font-bold mb-6">Select Recharge Package</h2>
+          <h2 className="text-2xl font-bold mb-6">{t('recharge.selectRechargePackage')}</h2>
           <div className="grid sm:grid-cols-2 gap-4 mb-8">
             {rechargePackages.map((pkg) => {
               const totalCredits = pkg.credits + pkg.bonus
@@ -116,15 +139,15 @@ export default function RechargeClient({ user }: RechargeClientProps) {
                 >
                   <div className="text-center">
                     <div className="text-4xl font-bold text-primary mb-2">{totalCredits}</div>
-                    <div className="text-sm text-muted-foreground mb-4">Credits</div>
+                    <div className="text-sm text-muted-foreground mb-4">{t('wallet.credits')}</div>
                     <div className="text-3xl font-bold mb-4">${pkg.price}</div>
                     {pkg.bonus > 0 && (
                       <div className="text-sm text-green-600 dark:text-green-400 font-medium mb-2">
-                        Bonus {pkg.bonus} Credits
+                        Bonus {pkg.bonus} {t('wallet.credits')}
                       </div>
                     )}
                     <div className="text-xs text-muted-foreground">
-                      Base {pkg.credits} Credits
+                      Base {pkg.credits} {t('wallet.credits')}
                     </div>
                     {isSelected && (
                       <div className="mt-4 flex items-center justify-center text-primary">
@@ -140,24 +163,60 @@ export default function RechargeClient({ user }: RechargeClientProps) {
 
           {/* Payment Methods */}
           <div className="mb-8">
-            <h3 className="text-lg font-semibold mb-4">Payment Method</h3>
+            <h3 className="text-lg font-semibold mb-4">{t('recharge.paymentMethod')}</h3>
             <div className="grid grid-cols-3 gap-4">
-              <Card className="p-4 border-2 border-primary cursor-pointer">
+              <Card
+                className={`p-4 border-2 cursor-pointer transition-all ${
+                  selectedPaymentMethod === 'credit_card'
+                    ? 'border-primary shadow-lg'
+                    : 'border-transparent hover:border-primary/50'
+                }`}
+                onClick={() => handleSelectPaymentMethod('credit_card')}
+              >
                 <div className="text-center">
                   <div className="text-2xl mb-2">💳</div>
-                  <div className="text-sm font-medium">Credit Card</div>
+                  <div className="text-sm font-medium">{t('recharge.creditCard')}</div>
+                  {selectedPaymentMethod === 'credit_card' && (
+                    <div className="mt-2 flex items-center justify-center text-primary">
+                      <Check className="w-4 h-4" />
+                    </div>
+                  )}
                 </div>
               </Card>
-              <Card className="p-4 border-2 border-transparent cursor-pointer hover:border-primary/50">
+              <Card
+                className={`p-4 border-2 cursor-pointer transition-all ${
+                  selectedPaymentMethod === 'paypal'
+                    ? 'border-primary shadow-lg'
+                    : 'border-transparent hover:border-primary/50'
+                }`}
+                onClick={() => handleSelectPaymentMethod('paypal')}
+              >
                 <div className="text-center">
                   <div className="text-2xl mb-2">💳</div>
-                  <div className="text-sm font-medium">PayPal</div>
+                  <div className="text-sm font-medium">{t('recharge.payPal')}</div>
+                  {selectedPaymentMethod === 'paypal' && (
+                    <div className="mt-2 flex items-center justify-center text-primary">
+                      <Check className="w-4 h-4" />
+                    </div>
+                  )}
                 </div>
               </Card>
-              <Card className="p-4 border-2 border-transparent cursor-pointer hover:border-primary/50">
+              <Card
+                className={`p-4 border-2 cursor-pointer transition-all ${
+                  selectedPaymentMethod === 'debit_card'
+                    ? 'border-primary shadow-lg'
+                    : 'border-transparent hover:border-primary/50'
+                }`}
+                onClick={() => handleSelectPaymentMethod('debit_card')}
+              >
                 <div className="text-center">
                   <div className="text-2xl mb-2">💳</div>
-                  <div className="text-sm font-medium">Debit Card</div>
+                  <div className="text-sm font-medium">{t('recharge.debitCard')}</div>
+                  {selectedPaymentMethod === 'debit_card' && (
+                    <div className="mt-2 flex items-center justify-center text-primary">
+                      <Check className="w-4 h-4" />
+                    </div>
+                  )}
                 </div>
               </Card>
             </div>
@@ -173,7 +232,7 @@ export default function RechargeClient({ user }: RechargeClientProps) {
               {loading ? (
                 <>
                   <Loader2 className="w-5 h-5 mr-2 animate-spin" />
-                  Processing...
+                  {t('recharge.processing')}
                 </>
               ) : (
                 `Pay $${selectedPackage?.price || 0}`
@@ -182,7 +241,7 @@ export default function RechargeClient({ user }: RechargeClientProps) {
           </div>
 
           <p className="text-xs text-muted-foreground mt-4 text-center">
-            By recharging, you agree to our Terms of Service and Privacy Policy
+            {t('recharge.agreeTerms')}
           </p>
         </Card>
       </div>

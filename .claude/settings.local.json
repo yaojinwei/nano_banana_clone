@@ -45,7 +45,8 @@
       "Bash(node:*)",
       "mcp__playwright__browser_type",
       "mcp__playwright__browser_press_key",
-      "mcp__playwright__browser_file_upload"
+      "mcp__playwright__browser_file_upload",
+      "mcp__playwright__browser_handle_dialog"
     ]
   }
 }

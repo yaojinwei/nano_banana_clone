@@ -18,7 +18,8 @@
     "generator": "Generator",
     "usage": "Usage History",
     "wallet": "Wallet",
-    "createImage": "Create Image"
+    "createImage": "Create Image",
+    "faq": "FAQ"
   },
   "hero": {
     "badge": "New: AI Banana-Powered Filters",
@@ -138,7 +139,16 @@
     "tip2": "Try different AI models for varied artistic styles",
     "tip3": "Higher quality reference images yield better outputs",
     "providePromptAndImage": "Please provide both a prompt and an image",
-    "providePrompt": "Please provide a prompt"
+    "providePrompt": "Please provide a prompt",
+    "generateNow2Credits": "Generate Now (2 Credits)",
+    "generateImage3Credits": "Generate Image (3 Credits)",
+    "dismiss": "Dismiss",
+    "failedToGenerate": "Failed to generate image",
+    "noImagesGenerated": "No images generated",
+    "uploadedAlt": "Uploaded",
+    "generatedAlt": "Generated",
+    "selectModel": "Select a model",
+    "selectImageSize": "Select image size"
   },
   "usage": {
     "title": "Usage History",
@@ -162,5 +172,128 @@
     "nanoBanana": "Nano Banana",
     "nanoBananaPro": "Nano Banana Pro",
     "seedream4": "SeeDream 4"
+  },
+  "wallet": {
+    "myWallet": "My Wallet",
+    "viewBalanceRecords": "View your balance and recharge records",
+    "currentBalance": "Current Balance",
+    "failedToLoad": "Failed to load",
+    "credits": "Credits",
+    "recharge": "Recharge",
+    "addCredits": "Add Credits to your account",
+    "rechargeHistory": "Recharge History",
+    "viewHistoricalRecords": "View historical recharge records",
+    "rechargePackages": "Recharge Packages"
+  },
+  "recharge": {
+    "backToWallet": "Back to Wallet",
+    "recharge": "Recharge",
+    "selectPackage": "Select a recharge package to add Credits to your account",
+    "selectRechargePackage": "Select Recharge Package",
+    "paymentMethod": "Payment Method",
+    "creditCard": "Credit Card",
+    "payPal": "PayPal",
+    "debitCard": "Debit Card",
+    "processing": "Processing...",
+    "agreeTerms": "By recharging, you agree to our Terms of Service and Privacy Policy",
+    "checkoutError": "Failed to create checkout session. Please try again."
+  },
+  "rechargeRecords": {
+    "backToWallet": "Back to Wallet",
+    "rechargeHistory": "Recharge History",
+    "noRecords": "No recharge records yet",
+    "time": "Time",
+    "amount": "Amount",
+    "credits": "Credits",
+    "paymentMethod": "Payment Method",
+    "status": "Status",
+    "pending": "Pending",
+    "completed": "Completed",
+    "failed": "Failed",
+    "cancelled": "Cancelled",
+    "itemsPerPage": "Items per page:",
+    "pageOf": "Page {page} of {totalPages}, {total} total",
+    "previous": "Previous",
+    "next": "Next",
+    "retry": "Retry"
+  },
+  "pricing": {
+    "limitedOffer": "Limited Time: Save 20% with Annual Billing",
+    "title": "Choose Your Perfect Plan",
+    "subtitle": "Unlimited creativity starts here",
+    "monthly": "Monthly",
+    "yearly": "Yearly",
+    "save50": "Save 50%",
+    "mostPopular": "Most Popular",
+    "creditsPerMonth": "credits/month",
+    "creditsPerYear": "credits/year",
+    "getStarted": "Get Started",
+    "processing": "Processing...",
+    "checkoutError": "Failed to create checkout session. Please try again.",
+    "plans": {
+      "basic": {
+        "name": "Basic",
+        "description": "Perfect for individuals and light users",
+        "features": [
+          "100 high-quality images/month",
+          "All style templates included",
+          "Standard generation speed",
+          "Basic customer support",
+          "JPG/PNG format downloads",
+          "Commercial Use License"
+        ]
+      },
+      "pro": {
+        "name": "Pro",
+        "description": "For professional creators and teams",
+        "features": [
+          "400 high-quality images/month",
+          "Support Seedream-4 Model",
+          "Support Nanobanana-Pro Model",
+          "All style templates included",
+          "Priority generation queue",
+          "Priority customer support",
+          "JPG/PNG/WebP format downloads",
+          "Batch generation feature",
+          "Image editing tools (Coming in October)",
+          "Commercial Use License"
+        ]
+      },
+      "max": {
+        "name": "Max",
+        "description": "Designed for large enterprises and professional studios",
+        "features": [
+          "1800 high-quality images/month",
+          "Support Seedream-4 Model",
+          "Support Nanobanana-Pro Model",
+          "All style templates included",
+          "Fastest generation speed",
+          "Dedicated account manager",
+          "All format downloads",
+          "Batch generation feature",
+          "Professional editing suite (Coming in October)",
+          "Commercial Use License"
+        ]
+      }
+    },
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "q1": {
+        "question": "What are credits and how do they work?",
+        "answer": "2 credits generate 1 high-quality image. Credits are automatically refilled at the start of each billing cycle - monthly for monthly plans, all at once for yearly plans."
+      },
+      "q2": {
+        "question": "Can I change my plan anytime?",
+        "answer": "Yes, you can upgrade or downgrade your plan at any time. Upgrades take effect immediately, while downgrades take effect at the next billing cycle."
+      },
+      "q3": {
+        "question": "Do unused credits roll over?",
+        "answer": "Monthly plan credits do not roll over to the next month. Yearly plan credits are valid for the entire subscription period. We recommend choosing a plan based on your actual usage needs."
+      },
+      "q4": {
+        "question": "What payment methods are supported?",
+        "answer": "We support credit cards, debit cards, Alipay, WeChat Pay, and various other payment methods. All payments are processed through secure third-party payment platforms."
+      }
+    }
   }
 }

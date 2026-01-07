@@ -11,12 +11,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Card } from "@/components/ui/card"
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Upload, Wand2, Download, Loader2, AlertCircle } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 interface GeneratorClientProps {
   user: any
 }
 
 export default function GeneratorClient({ user }: GeneratorClientProps) {
+  const t = useTranslations()
   const [selectedModel, setSelectedModel] = useState("nano-banana")
   const [textToImageModel, setTextToImageModel] = useState("nano-banana")
   const [prompt, setPrompt] = useState("")
@@ -42,7 +44,7 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
 
   const handleGenerate = async () => {
     if (!prompt || !uploadedImage) {
-      setErrorMessage("Please provide both a prompt and an image")
+      setErrorMessage(t('generator.providePromptAndImage'))
       return
     }
 
@@ -68,18 +70,18 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to generate image")
+        throw new Error(data.error || t('generator.failedToGenerate'))
       }
 
       if (data.data && data.data.length > 0) {
         const images = data.data.map((item: any) => item.url)
         setGeneratedImages(images)
       } else {
-        throw new Error("No images generated")
+        throw new Error(t('generator.noImagesGenerated'))
       }
     } catch (error) {
       console.error("Error generating image:", error)
-      setErrorMessage(error instanceof Error ? error.message : "Failed to generate image")
+      setErrorMessage(error instanceof Error ? error.message : t('generator.failedToGenerate'))
     } finally {
       setIsGenerating(false)
     }
@@ -105,7 +107,7 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
 
   const handleTextToImageGenerate = async () => {
     if (!textToImagePrompt) {
-      setErrorMessage("Please provide a prompt")
+      setErrorMessage(t('generator.providePrompt'))
       return
     }
 
@@ -128,18 +130,18 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || "Failed to generate image")
+        throw new Error(data.error || t('generator.failedToGenerate'))
       }
 
       if (data.data && data.data.length > 0) {
         const images = data.data.map((item: any) => item.url)
         setGeneratedImages(images)
       } else {
-        throw new Error("No images generated")
+        throw new Error(t('generator.noImagesGenerated'))
       }
     } catch (error) {
       console.error("Error generating image:", error)
-      setErrorMessage(error instanceof Error ? error.message : "Failed to generate image")
+      setErrorMessage(error instanceof Error ? error.message : t('generator.failedToGenerate'))
     } finally {
       setIsTextToImageGenerating(false)
     }
@@ -149,8 +151,8 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
     <div className="min-h-screen bg-background pt-16">
       <div className="container mx-auto max-w-7xl px-4 py-12">
         <div className="text-center mb-8">
-          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-balance">AI Image Editor</h1>
-          <p className="text-lg text-muted-foreground">Transform existing images into new creations</p>
+          <h1 className="text-4xl md:text-5xl font-bold mb-3 text-balance">{t('generator.title')}</h1>
+          <p className="text-lg text-muted-foreground">{t('generator.subtitle')}</p>
         </div>
 
         <div className="grid lg:grid-cols-2 gap-8">
@@ -158,18 +160,18 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
             <Card className="p-6">
               <Tabs defaultValue="image-edit" className="w-full">
                 <TabsList className="grid w-full grid-cols-2 mb-6">
-                  <TabsTrigger value="image-edit">Image Edit</TabsTrigger>
-                  <TabsTrigger value="text-to-image">Text to Image</TabsTrigger>
+                  <TabsTrigger value="image-edit">{t('generator.imageEdit')}</TabsTrigger>
+                  <TabsTrigger value="text-to-image">{t('generator.textToImage')}</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="image-edit" className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="prompt" className="text-base font-semibold">
-                      Prompt Input
+                      {t('generator.promptLabel')}
                     </Label>
                     <Textarea
                       id="prompt"
-                      placeholder="Describe how you want to transform your image..."
+                      placeholder={t('generator.promptPlaceholder')}
                       value={prompt}
                       onChange={(e) => setPrompt(e.target.value)}
                       className="min-h-[100px] resize-none"
@@ -178,25 +180,25 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
 
                   <div className="space-y-2">
                     <Label htmlFor="model" className="text-base font-semibold">
-                      AI Model Selection
+                      {t('generator.modelLabel')}
                     </Label>
                     <Select value={selectedModel} onValueChange={setSelectedModel}>
                       <SelectTrigger id="model">
-                        <SelectValue placeholder="Select a model" />
+                        <SelectValue placeholder={t('generator.selectModel')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="nano-banana">Nano Banana</SelectItem>
-                        <SelectItem value="nano-banana-pro">Nano Banana Pro</SelectItem>
-                        <SelectItem value="seedream-4">SeeDream 4</SelectItem>
+                        <SelectItem value="nano-banana">{t('models.nanoBanana')}</SelectItem>
+                        <SelectItem value="nano-banana-pro">{t('models.nanoBananaPro')}</SelectItem>
+                        <SelectItem value="seedream-4">{t('models.seedream4')}</SelectItem>
                       </SelectContent>
                     </Select>
                     <p className="text-sm text-muted-foreground">
-                      Different models offer unique characteristics and styles
+                      {t('generator.modelDescription')}
                     </p>
                   </div>
 
                   <div className="space-y-2">
-                    <Label className="text-base font-semibold">Reference Image</Label>
+                    <Label className="text-base font-semibold">{t('generator.imageLabel')}</Label>
                     <div
                       className="border-2 border-dashed rounded-lg p-8 text-center hover:border-primary/50 transition-colors cursor-pointer bg-card"
                       onClick={() => fileInputRef.current?.click()}
@@ -211,7 +213,7 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
                       {uploadedImage ? (
                         <img
                           src={uploadedImage}
-                          alt="Uploaded"
+                          alt={t('generator.uploadedAlt')}
                           className="max-h-48 mx-auto rounded-lg"
                         />
                       ) : (
@@ -219,8 +221,8 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
                           <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center mx-auto">
                             <Upload className="w-6 h-6 text-primary" />
                           </div>
-                          <p className="text-sm font-medium">Add Image</p>
-                          <p className="text-xs text-muted-foreground">Max 10MB</p>
+                          <p className="text-sm font-medium">{t('generator.addImage')}</p>
+                          <p className="text-xs text-muted-foreground">{t('generator.maxSize')}</p>
                         </div>
                       )}
                     </div>
@@ -241,12 +243,12 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
                     {isGenerating ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Generating...
+                        {t('generator.generatingButton')}
                       </>
                     ) : (
                       <>
                         <Wand2 className="w-4 h-4 mr-2" />
-                        Generate Now (2 Credits)
+                        {t('generator.generateNow2Credits')}
                       </>
                     )}
                   </Button>
@@ -255,56 +257,56 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
                 <TabsContent value="text-to-image" className="space-y-6">
                   <div className="space-y-2">
                     <Label htmlFor="text-to-image-prompt" className="text-base font-semibold">
-                      Describe Your Image
+                      {t('generator.describeImage')}
                     </Label>
                     <Textarea
                       id="text-to-image-prompt"
-                      placeholder="A serene sunset over a calm lake, with mountains in the background and vibrant orange and purple sky..."
+                      placeholder={t('generator.textToImagePlaceholder')}
                       value={textToImagePrompt}
                       onChange={(e) => setTextToImagePrompt(e.target.value)}
                       className="min-h-[120px] resize-none"
                     />
                     <p className="text-xs text-muted-foreground">
-                      Be descriptive for better results. Include style, mood, colors, and details.
+                      {t('generator.beDescriptive')}
                     </p>
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="text-model" className="text-base font-semibold">
-                      AI Model Selection
+                      {t('generator.modelLabel')}
                     </Label>
                     <Select value={textToImageModel} onValueChange={setTextToImageModel}>
                       <SelectTrigger id="text-model">
-                        <SelectValue placeholder="Select a model" />
+                        <SelectValue placeholder={t('generator.selectModel')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="nano-banana">Nano Banana</SelectItem>
-                        <SelectItem value="nano-banana-pro">Nano Banana Pro</SelectItem>
-                        <SelectItem value="seedream-4">SeeDream 4</SelectItem>
+                        <SelectItem value="nano-banana">{t('models.nanoBanana')}</SelectItem>
+                        <SelectItem value="nano-banana-pro">{t('models.nanoBananaPro')}</SelectItem>
+                        <SelectItem value="seedream-4">{t('models.seedream4')}</SelectItem>
                       </SelectContent>
                     </Select>
                     <p className="text-sm text-muted-foreground">
-                      Different models offer unique characteristics and styles
+                      {t('generator.modelDescription')}
                     </p>
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="image-size" className="text-base font-semibold">
-                      Image Size
+                      {t('generator.imageSize')}
                     </Label>
                     <Select value={imageSize} onValueChange={setImageSize}>
                       <SelectTrigger id="image-size">
-                        <SelectValue placeholder="Select image size" />
+                        <SelectValue placeholder={t('generator.selectImageSize')} />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="1:1">1:1 (Square)</SelectItem>
-                        <SelectItem value="16:9">16:9 (Landscape)</SelectItem>
-                        <SelectItem value="9:16">9:16 (Portrait)</SelectItem>
-                        <SelectItem value="4:3">4:3 (Standard)</SelectItem>
+                        <SelectItem value="1:1">{t('generator.aspectRatios.1:1')}</SelectItem>
+                        <SelectItem value="16:9">{t('generator.aspectRatios.16:9')}</SelectItem>
+                        <SelectItem value="9:16">{t('generator.aspectRatios.9:16')}</SelectItem>
+                        <SelectItem value="4:3">{t('generator.aspectRatios.4:3')}</SelectItem>
                       </SelectContent>
                     </Select>
                     <p className="text-sm text-muted-foreground">
-                      Choose the aspect ratio for your generated image
+                      {t('generator.sizeDescription')}
                     </p>
                   </div>
 
@@ -323,12 +325,12 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
                     {isTextToImageGenerating ? (
                       <>
                         <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                        Generating...
+                        {t('generator.generatingButton')}
                       </>
                     ) : (
                       <>
                         <Wand2 className="w-4 h-4 mr-2" />
-                        Generate Image (3 Credits)
+                        {t('generator.generateImage3Credits')}
                       </>
                     )}
                   </Button>
@@ -338,19 +340,19 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
 
             <Card className="p-6 bg-secondary/20">
               <h3 className="font-semibold mb-3 flex items-center gap-2">
-                <span>💡</span> Generation Tips
+                <span>💡</span> {t('generator.generationTips')}
               </h3>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• Use detailed descriptions for more accurate results</li>
-                <li>• Try different AI models for varied artistic styles</li>
-                <li>• Higher quality reference images yield better outputs</li>
+                <li>• {t('generator.tip1')}</li>
+                <li>• {t('generator.tip2')}</li>
+                <li>• {t('generator.tip3')}</li>
               </ul>
             </Card>
           </div>
 
           <div>
             <Card className="p-6 min-h-[600px]">
-              <h2 className="text-xl font-semibold mb-4">Output Gallery</h2>
+              <h2 className="text-xl font-semibold mb-4">{t('generator.outputGallery')}</h2>
 
               {errorMessage ? (
                 <div className="flex items-center justify-center h-full">
@@ -361,7 +363,7 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
                       variant="outline"
                       onClick={() => setErrorMessage(null)}
                     >
-                      Dismiss
+                      {t('generator.dismiss')}
                     </Button>
                   </div>
                 </div>
@@ -369,7 +371,7 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
                 <div className="grid grid-cols-1 gap-4">
                   {generatedImages.map((img, idx) => (
                     <div key={idx} className="relative group rounded-lg overflow-hidden border">
-                      <img src={img} alt={"Generated " + (idx + 1)} className="w-full h-auto" />
+                      <img src={img} alt={t('generator.generatedAlt') + " " + (idx + 1)} className="w-full h-auto" />
                       <div className="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-4">
                         <Button
                           size="sm"
@@ -377,7 +379,7 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
                           onClick={() => handleDownload(img, idx)}
                         >
                           <Download className="w-4 h-4 mr-2" />
-                          Download
+                          {t('usage.download')}
                         </Button>
                       </div>
                     </div>
@@ -389,8 +391,8 @@ export default function GeneratorClient({ user }: GeneratorClientProps) {
                     <Wand2 className="w-10 h-10 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-lg mb-2">Ready for instant generation</h3>
-                    <p className="text-muted-foreground">Enter your prompt and unleash the power</p>
+                    <h3 className="font-semibold text-lg mb-2">{t('generator.readyForGeneration')}</h3>
+                    <p className="text-muted-foreground">{t('generator.enterPrompt')}</p>
                   </div>
                 </div>
               )}

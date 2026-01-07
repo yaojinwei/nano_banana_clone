@@ -18,7 +18,8 @@
     "generator": "生成器",
     "usage": "使用记录",
     "wallet": "钱包",
-    "createImage": "创建图像"
+    "createImage": "创建图像",
+    "faq": "常见问题"
   },
   "hero": {
     "badge": "新功能：AI 香蕉驱动滤镜",
@@ -138,7 +139,16 @@
     "tip2": "尝试不同的 AI 模型以获得多样的艺术风格",
     "tip3": "更高质量的参考图像会产生更好的输出",
     "providePromptAndImage": "请同时提供提示词和图像",
-    "providePrompt": "请提供提示词"
+    "providePrompt": "请提供提示词",
+    "generateNow2Credits": "立即生成 (2 积分)",
+    "generateImage3Credits": "生成图像 (3 积分)",
+    "dismiss": "关闭",
+    "failedToGenerate": "生成图像失败",
+    "noImagesGenerated": "未生成图像",
+    "uploadedAlt": "已上传",
+    "generatedAlt": "已生成",
+    "selectModel": "选择一个模型",
+    "selectImageSize": "选择图像尺寸"
   },
   "usage": {
     "title": "使用记录",
@@ -162,5 +172,128 @@
     "nanoBanana": "Nano Banana",
     "nanoBananaPro": "Nano Banana Pro",
     "seedream4": "SeeDream 4"
+  },
+  "wallet": {
+    "myWallet": "我的钱包",
+    "viewBalanceRecords": "查看您的余额和充值记录",
+    "currentBalance": "当前余额",
+    "failedToLoad": "加载失败",
+    "credits": "积分",
+    "recharge": "充值",
+    "addCredits": "为您的账户添加积分",
+    "rechargeHistory": "充值记录",
+    "viewHistoricalRecords": "查看历史充值记录",
+    "rechargePackages": "充值套餐"
+  },
+  "recharge": {
+    "backToWallet": "返回钱包",
+    "recharge": "充值",
+    "selectPackage": "选择充值套餐为您的账户添加积分",
+    "selectRechargePackage": "选择充值套餐",
+    "paymentMethod": "支付方式",
+    "creditCard": "信用卡",
+    "payPal": "PayPal",
+    "debitCard": "借记卡",
+    "processing": "处理中...",
+    "agreeTerms": "充值即表示您同意我们的服务条款和隐私政策",
+    "checkoutError": "创建支付会话失败，请重试。"
+  },
+  "rechargeRecords": {
+    "backToWallet": "返回钱包",
+    "rechargeHistory": "充值记录",
+    "noRecords": "暂无充值记录",
+    "time": "时间",
+    "amount": "金额",
+    "credits": "积分",
+    "paymentMethod": "支付方式",
+    "status": "状态",
+    "pending": "待处理",
+    "completed": "已完成",
+    "failed": "失败",
+    "cancelled": "已取消",
+    "itemsPerPage": "每页显示：",
+    "pageOf": "第 {page} 页，共 {totalPages} 页，总计 {total} 条",
+    "previous": "上一页",
+    "next": "下一页",
+    "retry": "重试"
+  },
+  "pricing": {
+    "limitedOffer": "限时优惠：年付可享 8 折优惠",
+    "title": "选择您的完美方案",
+    "subtitle": "无限创意从这里开始",
+    "monthly": "月付",
+    "yearly": "年付",
+    "save50": "省 50%",
+    "mostPopular": "最受欢迎",
+    "creditsPerMonth": "积分/月",
+    "creditsPerYear": "积分/年",
+    "getStarted": "开始使用",
+    "processing": "处理中...",
+    "checkoutError": "创建支付会话失败，请重试。",
+    "plans": {
+      "basic": {
+        "name": "基础版",
+        "description": "适合个人用户和轻度使用者",
+        "features": [
+          "每月 100 张高质量图像",
+          "包含所有风格模板",
+          "标准生成速度",
+          "基础客户支持",
+          "JPG/PNG 格式下载",
+          "商业使用许可"
+        ]
+      },
+      "pro": {
+        "name": "专业版",
+        "description": "适合专业创作者和团队",
+        "features": [
+          "每月 400 张高质量图像",
+          "支持 Seedream-4 模型",
+          "支持 Nano Banana Pro 模型",
+          "包含所有风格模板",
+          "优先生成队列",
+          "优先客户支持",
+          "JPG/PNG/WebP 格式下载",
+          "批量生成功能",
+          "图像编辑工具（10月推出）",
+          "商业使用许可"
+        ]
+      },
+      "max": {
+        "name": "旗舰版",
+        "description": "适合大型企业和专业工作室",
+        "features": [
+          "每月 1800 张高质量图像",
+          "支持 Seedream-4 模型",
+          "支持 Nano Banana Pro 模型",
+          "包含所有风格模板",
+          "最快生成速度",
+          "专属客户经理",
+          "所有格式下载",
+          "批量生成功能",
+          "专业编辑套件（10月推出）",
+          "商业使用许可"
+        ]
+      }
+    },
+    "faq": {
+      "title": "常见问题",
+      "q1": {
+        "question": "什么是积分？如何使用？",
+        "answer": "2 积分可生成 1 张高质量图像。积分会在每个计费周期开始时自动补充 - 月付计划每月补充，年付计划一次性补充全年积分。"
+      },
+      "q2": {
+        "question": "我可以随时更改计划吗？",
+        "answer": "可以，您可以随时升级或降级计划。升级立即生效，降级在下一个计费周期生效。"
+      },
+      "q3": {
+        "question": "未使用的积分会累积吗？",
+        "answer": "月付计划的积分不会累积到下个月。年付计划的积分在整个订阅期间有效。我们建议根据您的实际使用需求选择合适的计划。"
+      },
+      "q4": {
+        "question": "支持哪些支付方式？",
+        "answer": "我们支持信用卡、借记卡、支付宝、微信支付等多种支付方式。所有支付均通过安全的第三方支付平台处理。"
+      }
+    }
   }
 }

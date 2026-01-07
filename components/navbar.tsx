@@ -96,7 +96,7 @@ export function Navbar() {
             {t('nav.about')}
           </Link>
           <Link href="#faq" className="hover:text-primary transition-colors">
-            FAQ
+            {t('nav.faq')}
           </Link>
         </div>
         <div className="flex items-center gap-4">

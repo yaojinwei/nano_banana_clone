@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ChevronLeft, ChevronRight, Loader2, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { useTranslations } from "next-intl"
 
 interface RechargeRecord {
   id: string
@@ -29,6 +30,7 @@ interface RechargeRecordsClientProps {
 }
 
 export default function RechargeRecordsClient({ user }: RechargeRecordsClientProps) {
+  const t = useTranslations()
   const router = useRouter()
   const [records, setRecords] = useState<RechargeRecord[]>([])
   const [pagination, setPagination] = useState<PaginationData>({
@@ -79,13 +81,13 @@ export default function RechargeRecordsClient({ user }: RechargeRecordsClientPro
   const getStatusLabel = (status: string) => {
     switch (status) {
       case 'pending':
-        return 'Pending'
+        return t('rechargeRecords.pending')
       case 'completed':
-        return 'Completed'
+        return t('rechargeRecords.completed')
       case 'failed':
-        return 'Failed'
+        return t('rechargeRecords.failed')
       case 'cancelled':
-        return 'Cancelled'
+        return t('rechargeRecords.cancelled')
       default:
         return status
     }
@@ -127,10 +129,10 @@ export default function RechargeRecordsClient({ user }: RechargeRecordsClientPro
             className="mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Wallet
+            {t('rechargeRecords.backToWallet')}
           </Button>
-          <h1 className="text-4xl font-bold mb-3">Recharge History</h1>
-          <p className="text-lg text-muted-foreground">View your historical recharge records</p>
+          <h1 className="text-4xl font-bold mb-3">{t('rechargeRecords.rechargeHistory')}</h1>
+          <p className="text-lg text-muted-foreground">{t('wallet.viewHistoricalRecords')}</p>
         </div>
 
         <Card className="p-6">
@@ -145,12 +147,12 @@ export default function RechargeRecordsClient({ user }: RechargeRecordsClientPro
                 onClick={() => fetchRecords(pagination.page, pagination.pageSize)}
                 variant="outline"
               >
-                Retry
+                {t('common.retry')}
               </Button>
             </div>
           ) : records.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">No recharge records yet</p>
+              <p className="text-muted-foreground">{t('rechargeRecords.noRecords')}</p>
             </div>
           ) : (
             <>
@@ -158,11 +160,11 @@ export default function RechargeRecordsClient({ user }: RechargeRecordsClientPro
                 <table className="w-full">
                   <thead>
                     <tr className="border-b">
-                      <th className="text-left py-3 px-4 font-semibold">Time</th>
-                      <th className="text-left py-3 px-4 font-semibold">Amount</th>
-                      <th className="text-left py-3 px-4 font-semibold">Credits</th>
-                      <th className="text-left py-3 px-4 font-semibold">Payment Method</th>
-                      <th className="text-left py-3 px-4 font-semibold">Status</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('rechargeRecords.time')}</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('rechargeRecords.amount')}</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('rechargeRecords.credits')}</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('rechargeRecords.paymentMethod')}</th>
+                      <th className="text-left py-3 px-4 font-semibold">{t('rechargeRecords.status')}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -186,7 +188,7 @@ export default function RechargeRecordsClient({ user }: RechargeRecordsClientPro
               {/* Pagination */}
               <div className="flex items-center justify-between mt-6 pt-6 border-t">
                 <div className="flex items-center gap-2">
-                  <span className="text-sm text-muted-foreground">Items per page:</span>
+                  <span className="text-sm text-muted-foreground">{t('rechargeRecords.itemsPerPage')}</span>
                   <Select
                     value={pagination.pageSize.toString()}
                     onValueChange={handlePageSizeChange}
@@ -205,7 +207,11 @@ export default function RechargeRecordsClient({ user }: RechargeRecordsClientPro
 
                 <div className="flex items-center gap-2">
                   <span className="text-sm text-muted-foreground">
-                    Page {pagination.page} of {pagination.totalPages}, {pagination.total} total
+                    {t('rechargeRecords.pageOf', {
+                      page: pagination.page,
+                      totalPages: pagination.totalPages,
+                      total: pagination.total
+                    })}
                   </span>
                   <div className="flex gap-1 ml-4">
                     <Button
@@ -215,7 +221,7 @@ export default function RechargeRecordsClient({ user }: RechargeRecordsClientPro
                       disabled={pagination.page === 1}
                     >
                       <ChevronLeft className="w-4 h-4" />
-                      Previous
+                      {t('rechargeRecords.previous')}
                     </Button>
                     <Button
                       variant="outline"
@@ -223,7 +229,7 @@ export default function RechargeRecordsClient({ user }: RechargeRecordsClientPro
                       onClick={() => handlePageChange(pagination.page + 1)}
                       disabled={pagination.page === pagination.totalPages}
                     >
-                      Next
+                      {t('rechargeRecords.next')}
                       <ChevronRight className="w-4 h-4" />
                     </Button>
                   </div>
