@@ -32,7 +32,7 @@ const CREDIT_PRODUCT_IDS: Record<number, string> = {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { planId, billingCycle, userEmail, userId, amount, credits } = body
+    const { planId, billingCycle, userEmail, userId, amount, credits, locale } = body
 
     if (!userEmail || !userId) {
       return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
@@ -77,6 +77,10 @@ export async function POST(request: NextRequest) {
     }
 
     // Create checkout session with Creem
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"
+    const localePrefix = locale ? `/${locale}` : ""
+    const successUrl = `${baseUrl}${localePrefix}/checkout/success?session_id={CHECKOUT_SESSION_ID}`
+
     const checkoutResponse = await fetch(`${CREEM_API_URL}/v1/checkouts`, {
       method: "POST",
       headers: {
@@ -89,7 +93,7 @@ export async function POST(request: NextRequest) {
           email: userEmail,
         },
         metadata,
-        success_url: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,
+        success_url: successUrl,
       }),
     })
 

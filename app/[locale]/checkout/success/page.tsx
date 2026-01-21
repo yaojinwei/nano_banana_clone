@@ -3,10 +3,12 @@
 import { useEffect, useState, Suspense } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Loader2 } from "lucide-react"
+import { useTranslations } from "next-intl"
 
 function CheckoutSuccessContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
+  const t = useTranslations()
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -36,20 +38,20 @@ function CheckoutSuccessContent() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h1 className="text-3xl font-bold mb-2">Payment Successful!</h1>
+          <h1 className="text-3xl font-bold mb-2">{t('checkout.success.title')}</h1>
           <p className="text-muted-foreground">
-            Thank you for your purchase. Your credits have been added to your account.
+            {t('checkout.success.message')}
           </p>
         </div>
         <div className="space-y-4">
           <a href="/generator" className="block w-full">
             <button className="w-full h-12 bg-primary hover:bg-primary/90 text-primary-foreground font-semibold rounded-lg">
-              Start Creating
+              {t('checkout.success.startCreating')}
             </button>
           </a>
           <a href="/wallet" className="block">
             <button className="w-full h-12 border border-input bg-background hover:bg-accent hover:text-accent-foreground font-semibold rounded-lg">
-              View Wallet
+              {t('checkout.success.viewWallet')}
             </button>
           </a>
         </div>

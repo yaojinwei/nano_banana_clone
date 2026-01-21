@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl"
 
 interface RechargeClientProps {
   user: any
+  locale: string
 }
 
 interface RechargePackage {
@@ -17,7 +18,7 @@ interface RechargePackage {
   bonus: number
 }
 
-export default function RechargeClient({ user }: RechargeClientProps) {
+export default function RechargeClient({ user, locale }: RechargeClientProps) {
   const t = useTranslations()
   const router = useRouter()
   const [selectedPackage, setSelectedPackage] = useState<RechargePackage | null>(null)
@@ -58,6 +59,7 @@ export default function RechargeClient({ user }: RechargeClientProps) {
           userId: user.id,
           amount: selectedPackage.price,
           credits: selectedPackage.credits, // 发送基础积分，不是总计积分
+          locale: locale, // 添加语言参数
         }),
       })
 

@@ -306,5 +306,13 @@
         "answer": "We support credit cards, debit cards, Alipay, WeChat Pay, and various other payment methods. All payments are processed through secure third-party payment platforms."
       }
     }
+  },
+  "checkout": {
+    "success": {
+      "title": "Payment Successful!",
+      "message": "Thank you for your purchase. Your credits have been added to your account.",
+      "startCreating": "Start Creating",
+      "viewWallet": "View Wallet"
+    }
   }
 }

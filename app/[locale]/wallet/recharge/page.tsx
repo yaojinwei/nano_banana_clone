@@ -2,7 +2,13 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import RechargeClient from './recharge-client'
 
-export default async function RechargePage() {
+interface RechargePageProps {
+  params: {
+    locale: string
+  }
+}
+
+export default async function RechargePage({ params }: RechargePageProps) {
   const supabase = await createClient()
 
   if (!supabase) {
@@ -15,5 +21,5 @@ export default async function RechargePage() {
     redirect('/login')
   }
 
-  return <RechargeClient user={user} />
+  return <RechargeClient user={user} locale={params.locale} />
 }
