@@ -1,15 +1,30 @@
-import { redirect } from "next/navigation"
+"use client"
 
-export default function CheckoutSuccessPage({
-  searchParams,
-}: {
-  searchParams: { session_id: string }
-}) {
-  // In a real application, you would verify the session with Creem
-  // and update the user's credits in the database
+import { useEffect, useState } from "react"
+import { useSearchParams, useRouter } from "next/navigation"
+import { Loader2 } from "lucide-react"
 
-  if (!session_id) {
-    redirect("/pricing")
+export default function CheckoutSuccessPage() {
+  const searchParams = useSearchParams()
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const sessionId = searchParams.get("session_id")
+
+    if (!sessionId) {
+      router.replace("/pricing")
+    } else {
+      setLoading(false)
+    }
+  }, [searchParams, router])
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center pt-16">
+        <Loader2 className="w-8 h-8 animate-spin" />
+      </div>
+    )
   }
 
   return (
