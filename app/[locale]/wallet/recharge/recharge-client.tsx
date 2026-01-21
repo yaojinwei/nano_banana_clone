@@ -57,7 +57,7 @@ export default function RechargeClient({ user }: RechargeClientProps) {
           userEmail: user.email,
           userId: user.id,
           amount: selectedPackage.price,
-          credits: selectedPackage.credits + selectedPackage.bonus,
+          credits: selectedPackage.credits, // 发送基础积分，不是总计积分
         }),
       })
 

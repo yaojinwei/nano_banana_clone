@@ -173,6 +173,17 @@
     "nanoBananaPro": "Nano Banana Pro",
     "seedream4": "SeeDream 4"
   },
+  "themes": {
+    "title": "Theme",
+    "banana": "Banana",
+    "ocean": "Ocean",
+    "forest": "Forest",
+    "berry": "Berry",
+    "sunset": "Sunset",
+    "lavender": "Lavender",
+    "mint": "Mint",
+    "rose": "Rose"
+  },
   "wallet": {
     "myWallet": "My Wallet",
     "viewBalanceRecords": "View your balance and recharge records",

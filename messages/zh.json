@@ -173,6 +173,17 @@
     "nanoBananaPro": "Nano Banana Pro",
     "seedream4": "SeeDream 4"
   },
+  "themes": {
+    "title": "主题",
+    "banana": "香蕉黄",
+    "ocean": "海洋蓝",
+    "forest": "森林绿",
+    "berry": "浆果紫",
+    "sunset": "日落橙",
+    "lavender": "薰衣草",
+    "mint": "薄荷绿",
+    "rose": "玫瑰红"
+  },
   "wallet": {
     "myWallet": "我的钱包",
     "viewBalanceRecords": "查看您的余额和充值记录",

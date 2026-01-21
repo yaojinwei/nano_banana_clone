@@ -16,6 +16,7 @@ import {
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useRouter } from "next/navigation"
 import LanguageSwitcher from "@/components/language-switcher"
+import { ThemeSwitcher } from "@/components/theme-switcher"
 import { useTranslations } from "next-intl"
 
 export function Navbar() {
@@ -100,6 +101,7 @@ export function Navbar() {
           </Link>
         </div>
         <div className="flex items-center gap-4">
+          {mounted && <ThemeSwitcher />}
           {mounted && <LanguageSwitcher />}
           <Button
             onClick={handleCreateImage}

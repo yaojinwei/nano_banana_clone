@@ -46,7 +46,9 @@
       "mcp__playwright__browser_type",
       "mcp__playwright__browser_press_key",
       "mcp__playwright__browser_file_upload",
-      "mcp__playwright__browser_handle_dialog"
+      "mcp__playwright__browser_handle_dialog",
+      "Bash(curl:*)",
+      "Bash(uv tool install:*)"
     ]
   }
 }
