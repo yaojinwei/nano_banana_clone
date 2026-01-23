@@ -20,13 +20,12 @@ const PRODUCT_IDS: Record<string, { monthly: string; yearly: string }> = {
   },
 }
 
-// Product IDs for one-time credit purchases
-// TEMPORARY: Using same product ID for testing - will update after creating all products in Creem Dashboard
+// Product IDs for one-time credit purchases (Production)
 const CREDIT_PRODUCT_IDS: Record<number, string> = {
-  100: "prod_5Y2l5t9ExT3DnmErjWZxfz",
-  500: "prod_5Y2l5t9ExT3DnmErjWZxfz",
-  1000: "prod_5Y2l5t9ExT3DnmErjWZxfz",
-  5000: "prod_5Y2l5t9ExT3DnmErjWZxfz",
+  100: "prod_Ft7RUZ04DY94yUePKDgNK",
+  500: "prod_7JLFTQKlF7XKLeZZYg4ZQf",
+  1000: "prod_340cqLMRx5ykrKMsCx5Vss",
+  5000: "prod_2NPmfjmB4UCGruAjrp9N8u",
 }
 
 export async function POST(request: NextRequest) {
